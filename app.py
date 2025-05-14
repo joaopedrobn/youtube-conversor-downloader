@@ -3,8 +3,13 @@ import yt_dlp
 import os
 import uuid
 
+if 'YT_COOKIES_TXT' in os.environ:
+    with open('cookies.txt', 'w', encoding='utf-8') as f:
+        f.write(os.environ['YT_COOKIES_TXT'])
+
 app = Flask(__name__)
 DOWNLOAD_DIR = "downloads"
+COOKIE_FILE = "cookies.txt"  # <- Aqui está o nome do arquivo
 
 # Garante que a pasta de download exista
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
@@ -24,7 +29,8 @@ def baixar():
 
     ydl_opts = {
         'outtmpl': caminho_saida,
-        'overwrites': True  # Sobrescreve se já existir
+        'overwrites': True,
+        'cookiefile': COOKIE_FILE  # <- Usa cookies permanentes
     }
 
     if formato == 'mp3':
@@ -42,7 +48,7 @@ def baixar():
             return jsonify({'erro': '❌ Qualidade não selecionada.'}), 400
 
         ydl_opts.update({
-            'format': f"{itag}+bestaudio"  # força merge sem reencodificar
+            'format': f"{itag}+bestaudio"
         })
 
     else:
@@ -53,13 +59,12 @@ def baixar():
             info = ydl.extract_info(url, download=True)
             nome_arquivo = ydl.prepare_filename(info)
 
-        # Corrige extensão final caso .mkv tenha sido gerado e convertido
         if formato == 'mp3':
             nome_arquivo = nome_arquivo.rsplit('.', 1)[0] + '.mp3'
         elif formato == 'mp4' and nome_arquivo.endswith('.mkv'):
             novo_nome = nome_arquivo.rsplit('.', 1)[0] + '.mp4'
             if os.path.exists(novo_nome):
-                os.remove(novo_nome)  # evita erro se já existir
+                os.remove(novo_nome)
             os.rename(nome_arquivo, novo_nome)
             nome_arquivo = novo_nome
 
@@ -76,7 +81,7 @@ def formatos():
         return jsonify({'erro': 'URL não informada'}), 400
 
     try:
-        with yt_dlp.YoutubeDL({}) as ydl:
+        with yt_dlp.YoutubeDL({'cookiefile': COOKIE_FILE}) as ydl:
             info = ydl.extract_info(url, download=False)
 
             resolucoes_desejadas = [144, 240, 360, 480, 720, 1080]
