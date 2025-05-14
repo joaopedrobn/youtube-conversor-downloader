@@ -9,9 +9,8 @@ if 'YT_COOKIES_TXT' in os.environ:
 
 app = Flask(__name__)
 DOWNLOAD_DIR = "downloads"
-COOKIE_FILE = "cookies.txt"  # <- Aqui está o nome do arquivo
+COOKIE_FILE = "cookies.txt"
 
-# Garante que a pasta de download exista
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 @app.route('/')
@@ -30,7 +29,7 @@ def baixar():
     ydl_opts = {
         'outtmpl': caminho_saida,
         'overwrites': True,
-        'cookiefile': COOKIE_FILE  # <- Usa cookies permanentes
+        'cookiefile': COOKIE_FILE
     }
 
     if formato == 'mp3':
@@ -42,15 +41,10 @@ def baixar():
                 'preferredquality': '192',
             }]
         })
-
     elif formato == 'mp4':
         if not itag:
             return jsonify({'erro': '❌ Qualidade não selecionada.'}), 400
-
-        ydl_opts.update({
-            'format': f"{itag}+bestaudio"
-        })
-
+        ydl_opts.update({'format': f"{itag}+bestaudio"})
     else:
         return jsonify({'erro': '❌ Formato inválido.'}), 400
 
@@ -68,11 +62,18 @@ def baixar():
             os.rename(nome_arquivo, novo_nome)
             nome_arquivo = novo_nome
 
-        return send_file(nome_arquivo, as_attachment=True)
+        nome_final = os.path.basename(nome_arquivo)
+        return jsonify({'url': f'/download/{nome_final}'})
 
     except Exception as e:
         return jsonify({'erro': f'❌ Erro ao baixar: {str(e)}'}), 500
 
+@app.route('/download/<nome_arquivo>')
+def download(nome_arquivo):
+    caminho = os.path.join(DOWNLOAD_DIR, nome_arquivo)
+    if not os.path.exists(caminho):
+        return 'Arquivo não encontrado', 404
+    return send_file(caminho, as_attachment=True)
 
 @app.route('/formatos', methods=['POST'])
 def formatos():
@@ -116,7 +117,6 @@ def formatos():
 
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)

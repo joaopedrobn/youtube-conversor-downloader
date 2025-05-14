@@ -28,11 +28,10 @@ form.addEventListener('submit', async function (e) {
   const formData = new FormData(form);
   let progresso = 0;
   const animacao = setInterval(() => {
-    progresso += 1; // ⚠️ menor incremento
+    progresso += 1;
     fill.style.width = progresso + '%';
-
-    if (progresso >= 90) clearInterval(animacao); // ainda para em 90%
-  }, 200); // ⏱ intervalo mais curto, mas menor incremento
+    if (progresso >= 90) clearInterval(animacao);
+  }, 200);
 
   try {
     const res = await fetch('/baixar', {
@@ -40,25 +39,15 @@ form.addEventListener('submit', async function (e) {
       body: formData,
     });
 
-    if (!res.ok) throw new Error('Erro no download');
+    const data = await res.json();
 
-    const blob = await res.blob();
-
-    let nomeArquivo = 'video.mp4';
-    const dispo = res.headers.get('Content-Disposition');
-    if (dispo && dispo.includes('filename=')) {
-      nomeArquivo = dispo.split('filename=')[1].replace(/"/g, '');
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.erro || 'Erro no download');
     }
 
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = nomeArquivo;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    feedback.textContent = '✅ Download concluído!';
+    feedback.textContent = '✅ Download iniciado!';
     fill.style.width = '100%';
     form.reset();
     resetar();
@@ -100,7 +89,6 @@ async function buscarQualidades(url) {
       qualidadeSelect.innerHTML =
         '<option value="">Escolha a qualidade</option>';
 
-      // Evita duplicidade, cria um Set para rastrear combinações únicas
       const vistos = new Set();
 
       data.formatos.forEach(f => {
@@ -126,10 +114,9 @@ async function buscarQualidades(url) {
 }
 
 formatoSelect.addEventListener('change', () => {
-  resetar(); // limpa seletor
+  resetar();
   const url = urlInput.value;
 
-  // Garante ocultar a qualidade para MP3
   if (formatoSelect.value === 'mp3') {
     qualidadeSelect.style.display = 'none';
     qualidadeSelect.required = false;
