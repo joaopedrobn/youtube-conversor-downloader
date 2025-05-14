@@ -22,3 +22,6 @@ instance/
 # Arquivos do sistema
 .DS_Store
 Thumbs.db
+
+# Ignora o arquivo de cookies
+cookies.txt
