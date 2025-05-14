@@ -1,0 +1,166 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilo geral do body */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* centraliza verticalmente */
+  padding: 20px;
+  gap: 16px; /* separação entre form e preview */
+  overflow: hidden; /* impede scroll */
+}
+
+/* Título principal */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 12px; /* era 24px */
+  color: #00e0ff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Container do formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  background: #1e1e2f;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Inputs e selects */
+input[type='url'],
+select {
+  padding: 12px 14px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #00e0ff;
+  background-color: #2a2a3d;
+  color: #f0f0f0;
+  width: 100%;
+  transition: border 0.2s;
+}
+
+input[type='url']:focus,
+select:focus {
+  border-color: #66ffff;
+  outline: none;
+}
+
+/* Botão de baixar */
+button {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #00e0ff;
+  color: #1e1e2f;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #00c8e0;
+}
+
+/* Feedback do download */
+.feedback {
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #66ffff;
+  text-align: center;
+}
+
+/* Barra de progresso */
+.progress-bar {
+  margin-top: 12px;
+  width: 100%;
+  max-width: 400px;
+  height: 6px;
+  background-color: #444;
+  border-radius: 8px;
+  overflow: hidden;
+  display: none;
+  align-self: center;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #00e0ff, #00ffc3);
+  transition: width 0.3s ease;
+}
+
+/* Preview do vídeo com título */
+#video-preview {
+  padding: 16px;
+  background: #2a2a3d;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0, 224, 255, 0.2);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 12px; /* 👈 isso evita que a parte de baixo grude no fim */
+}
+
+/* Título do vídeo */
+#video-title {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: #00ffff;
+}
+
+/* Thumbnail */
+#thumbnail {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+/* Botão animado */
+.yt-button {
+  display: inline-block;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff0000, #cc0000);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.yt-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+  form {
+    padding: 24px;
+  }
+
+  #video-preview {
+    padding: 16px;
+  }
+
+  #thumbnail {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.log
+*.db
+*.sqlite
+venv/
+.env
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+# Flask ou outros
+instance/
+*.egg-info/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

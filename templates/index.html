@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Conversor Downloader</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <h1>Youtube Conversor Downloader</h1>
+
+    <form id="form-download">
+      <input
+        type="url"
+        name="url"
+        id="url"
+        placeholder="Cole o link do YouTube aqui"
+        required
+      />
+
+      <select name="formato" id="formato" required>
+        <option value="mp4">MP4 (Vídeo)</option>
+        <option value="mp3">MP3 (Apenas Áudio)</option>
+      </select>
+
+      <select name="itag" id="qualidade" style="display: none" required>
+        <option value="">Escolha a qualidade</option>
+      </select>
+
+      <button type="submit" id="btn-baixar" disabled>Baixar</button>
+    </form>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-fill" id="fill"></div>
+    </div>
+
+    <!-- Preview do vídeo com título e botão -->
+    <div id="video-preview" style="display: none" class="thumb-wrapper">
+      <h2 id="video-title"></h2>
+      <img id="thumbnail" src="" alt="Thumbnail do vídeo" />
+      <a id="yt-link" href="#" target="_blank" class="yt-button"
+        >▶ Assistir no YouTube</a
+      >
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
