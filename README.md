@@ -120,8 +120,7 @@ Este projeto foi desenvolvido com base nos conhecimentos de Python e Flask, com 
 
 ## 📸 Screenshot
 
-![Interface do site](![Screenshot_1](https://github.com/user-attachments/assets/e26924a3-eeb5-484e-96a3-63ea5aa8077b)
-)
+![Screenshot_1](https://github.com/user-attachments/assets/bed45e81-136e-4bbc-b2b1-5ca08b51f574)
 
 ---
 
